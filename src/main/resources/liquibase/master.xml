@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <!-- ─( CREATE THE TABLES )─────────────────────── -->
+    <changeSet id="schema_setup" author="monger" context="test">
+        <createSequence sequenceName="seq_order" startValue="1" incrementBy="1"/>
+        <createSequence sequenceName="seq_item" startValue="1" incrementBy="1"/>
+
+        <!-- ─( CUSTOMER )─────── -->
+        <createTable tableName="monger_customer">
+            <column name="username" type="VARCHAR(128)">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_customer"/>
+            </column>
+            <column name="first_name" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(128)"/>
+        </createTable>
+
+        <!-- ─( PRODUCT )─────── -->
+        <createTable tableName="monger_product">
+            <column name="sku" type="VARCHAR(12)">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_product"/>
+            </column>
+            <column name="price" type="NUMERIC(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="LONGVARCHAR"/>
+        </createTable>
+
+        <!-- ─( ORDER )─────── -->
+        <createTable tableName="monger_order">
+            <column name="id" type="BIGINT" valueComputed="seq_order.NEXTVAL">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_order"/>
+            </column>
+            <column name="username" type="VARCHAR(128)">
+                <constraints foreignKeyName="fk_customer_order" references="monger_customer(username)" nullable="false"/>
+            </column>
+            <column name="date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- ─( ITEM )─────── -->
+        <createTable tableName="monger_item">
+            <column name="id" type="BIGINT" valueComputed="seq_item.NEXTVAL">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="ok_item"/>
+            </column>
+            <column name="order_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_order_item" references="monger_order(id)"/>
+            </column>
+            <column name="sku" type="VARCHAR(12)">
+                <constraints nullable="false" foreignKeyName="fk_product_item" references="monger_product(sku)"/>
+            </column>
+            <column name="purchase_price" type="NUMERIC(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- ─( ADD SOME DATA )─────────────────────── -->
+    <changeSet id="initial_data" author="monger" context="test">
+        <insert tableName="monger_customer">
+            <column name="username">jdoe</column>
+            <column name="first_name">John</column>
+            <column name="last_name">Doe</column>
+        </insert>
+        <insert tableName="monger_customer">
+            <column name="username">jdoe2</column>
+            <column name="first_name">Jane</column>
+            <column name="last_name">Doe</column>
+            <column name="email">jane_doe@neptune.us.gov</column>
+        </insert>
+        <insert tableName="monger_customer">
+            <column name="username">bobtheslob</column>
+            <column name="first_name">Bob</column>
+            <column name="last_name">Smith</column>
+            <column name="email">slobby_bob@saturn.us.gov</column>
+        </insert>
+
+        <insert tableName="monger_product">
+            <column name="sku">COMP-MPAD815</column>
+            <column name="price">9.95</column>
+            <column name="name">Mouse Pad</column>
+        </insert>
+        <insert tableName="monger_product">
+            <column name="sku">COMP-USBM75</column>
+            <column name="price">19.95</column>
+            <column name="name">USB Mouse</column>
+            <column name="description">This is the finest USB 3 mouse.</column>
+        </insert>
+        <insert tableName="monger_product">
+            <column name="sku">APPR-JAVAT99</column>
+            <column name="price">29.99</column>
+            <column name="name">Java-Geek Cotton Tee</column>
+        </insert>
+        <insert tableName="monger_product">
+            <column name="sku">INDS-PLUT94</column>
+            <column name="price">2500000.95</column>
+            <column name="name">Depleted Uranium</column>
+            <column name="description">Non-weapons-grade depleted Uranium for the future fission-master in you.</column>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
