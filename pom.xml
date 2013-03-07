@@ -9,10 +9,14 @@
 	
 	<properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <hibernateVersion>4.1.10.Final</hibernateVersion>
+        <springFrameworkVersion>3.2.1.RELEASE</springFrameworkVersion>
+        <liquibaseVersion>2.0.5</liquibaseVersion>
     </properties>
 	
 	<build>
 	    <plugins>
+            <!-- ─( JAVA COMPILER )─────── -->
 		    <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -23,19 +27,47 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
+
+            <!-- ─( GROOVY COMPILER )─────── -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <compilerId>groovy-eclipse-compiler</compilerId>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.codehaus.groovy</groupId>
+                        <artifactId>groovy-eclipse-compiler</artifactId>
+                        <version>2.7.0-01</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <!-- ─( DATABASE REFACTORING )─────── -->
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>${liquibaseVersion}</version>
+                <configuration>
+                    <propertyFile>src/main/resources/liquibase/liquibase.properties</propertyFile>
+                    <changeLogFile>src/main/resources/liquibase/master.xml</changeLogFile>
+                </configuration>
+            </plugin>
 			
-			<!-- UNIT TESTS -->
+			<!-- ─( UNIT TESTS )─────── -->
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.11</version>
                 <configuration>
-                    <groups>full-coverage</groups>
-                    <argLine>-XX:PermSize=128m -XX:MaxPermSize=512m</argLine>
+                    <groups>unit</groups>
+                    <parallel>methods</parallel>
+                    <threadCount>10</threadCount>
                 </configuration>
             </plugin>
 			
-			<!-- INTEGRATION TESTS -->
+			<!-- ─( INTEGRATION TESTS )─────── -->
 			<plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.7.2</version>
@@ -64,16 +96,90 @@
 	</build>
 	
 	<dependencies>
+        <!-- ─( SPRING )─────── -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${springFrameworkVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${springFrameworkVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${springFrameworkVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${springFrameworkVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${springFrameworkVersion}</version>
+        </dependency>
+
+        <!-- ─( HIBERNATE )─────── -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernateVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernateVersion}</version>
+        </dependency>
+
+        <!-- ─( CONNECTION POOL )─────── -->
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.2</version>
+        </dependency>
+
+        <!-- ─( EMBEDDED DATABASE )─────── -->
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.2.9</version>
+        </dependency>
+
+        <!-- ─( DATABASE REFACTORING )─────── -->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquibaseVersion}</version>
+        </dependency>
+
+        <!-- ─( FOR TESTS )─────── -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+            <version>${springFrameworkVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.0.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-eclipse-compiler</artifactId>
+            <version>2.7.0-01</version>
+            <scope>test</scope>
+        </dependency>
 	    <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>6.2</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>6.8</version>
+            <scope>test</scope>
         </dependency>
 	</dependencies>
 </project>
