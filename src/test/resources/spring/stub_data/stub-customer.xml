@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="newUserList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <ref bean="newCustomer1"/>
+                <ref bean="newCustomer2"/>
+                <ref bean="newCustomer3"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="newCustomer1" class="com.mongermethod.groovy_testng_example.customer.Customer"
+          p:username="scjpguy" p:firstName="Osborne" p:lastName="Manning"/>
+    <bean id="newCustomer2" class="com.mongermethod.groovy_testng_example.customer.Customer"
+          p:username="springgirl" p:firstName="Massol" p:lastName="Leme" p:email="blackhole@galaxy.us.gov"/>
+    <bean id="newCustomer3" class="com.mongermethod.groovy_testng_example.customer.Customer"
+          p:username="lama" p:firstName="Felipe" p:lastName="Vincent"/>
+
+</beans>
