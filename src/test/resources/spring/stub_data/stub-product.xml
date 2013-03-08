@@ -3,6 +3,30 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
+    <bean id="newProductList" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <ref bean="newProduct1"/>
+                <ref bean="newProduct2"/>
+                <ref bean="newProduct3"/>
+            </list>
+        </constructor-arg>
+    </bean>
 
+    <bean id="newProduct1" class="com.mongermethod.groovy_testng_example.product.Product">
+        <property name="sku" value="ABCD-1234567"/>
+        <property name="name" value="new product 1"/>
+        <property name="price" value="99.95"/>
+    </bean>
+    <bean id="newProduct2" class="com.mongermethod.groovy_testng_example.product.Product">
+        <property name="sku" value="ABCD-7654321"/>
+        <property name="name" value="new product 2"/>
+        <property name="price" value="19.95"/>
+    </bean>
+    <bean id="newProduct3" class="com.mongermethod.groovy_testng_example.product.Product">
+        <property name="sku" value="ZYXW-1234567"/>
+        <property name="name" value="new product 3"/>
+        <property name="price" value="29.95"/>
+    </bean>
 
 </beans>

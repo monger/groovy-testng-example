@@ -46,4 +46,28 @@ public class Product implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Product product = (Product) o;
+
+        if (description != null ? !description.equals(product.description) : product.description != null) return false;
+        if (!name.equals(product.name)) return false;
+        if (!price.equals(product.price)) return false;
+        if (!sku.equals(product.sku)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = sku.hashCode();
+        result = 31 * result + price.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        return result;
+    }
 }
