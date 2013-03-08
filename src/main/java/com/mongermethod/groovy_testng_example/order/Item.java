@@ -2,7 +2,7 @@ package com.mongermethod.groovy_testng_example.order;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigInteger;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "monger_item")
@@ -15,7 +15,7 @@ public class Item implements Serializable {
     private long orderId;
     private String sku;
     @Column(name = "purchase_price")
-    private BigInteger purchasePrice;
+    private BigDecimal purchasePrice;
     private int quantity;
 
     public long getId() {
@@ -42,11 +42,11 @@ public class Item implements Serializable {
         this.sku = sku;
     }
 
-    public BigInteger getPurchasePrice() {
+    public BigDecimal getPurchasePrice() {
         return purchasePrice;
     }
 
-    public void setPurchasePrice(BigInteger purchasePrice) {
+    public void setPurchasePrice(BigDecimal purchasePrice) {
         this.purchasePrice = purchasePrice;
     }
 
