@@ -1,8 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
+    <!-- ─( DATE FORMATTER )─────── -->
+    <bean id="dateEditor" class="org.springframework.beans.propertyeditors.CustomDateEditor">
+        <constructor-arg>
+            <bean class="java.text.SimpleDateFormat">
+                <constructor-arg value="yyyy-MM-dd" />
+            </bean>
+        </constructor-arg>
+        <constructor-arg value="true" />
+    </bean>
+    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+        <property name="customEditors">
+            <map>
+                <entry key="java.util.Date">
+                    <ref local="dateEditor" />
+                </entry>
+            </map>
+        </property>
+    </bean>
+    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
 
+    <!-- ─( ORDERS )─────── -->
+    <util:list id="newOrderList" list-class="java.util.ArrayList" value-type="com.mongermethod.groovy_testng_example.order.Order">
+        <ref bean="newOrder1"/>
+        <ref bean="newOrder2"/>
+    </util:list>
+
+    <bean id="newOrder1" class="com.mongermethod.groovy_testng_example.order.Order">
+        <property name="username" value="jdoe2"/>
+        <property name="date" value="2013-03-05 00:00:00.0"/>
+        <property name="orderItems" ref="newOrderItemList1"/>
+    </bean>
+    <bean id="newOrder2" class="com.mongermethod.groovy_testng_example.order.Order">
+        <property name="username" value="bobtheslob"/>
+        <property name="date" value="2013-03-08 00:00:00.0"/>
+        <property name="orderItems" ref="newOrderItemList2"/>
+    </bean>
+
+    <!-- ─( ORDER ITEMS )─────── -->
+    <util:set id="newOrderItemList1" set-class="java.util.TreeSet" value-type="com.mongermethod.groovy_testng_example.order.Item">
+        <ref bean="newOrderItem1"/>
+        <ref bean="newOrderItem2"/>
+    </util:set>
+    <util:set id="newOrderItemList2" set-class="java.util.TreeSet" value-type="com.mongermethod.groovy_testng_example.order.Item">
+        <ref bean="newOrderItem3"/>
+        <ref bean="newOrderItem4"/>
+        <ref bean="newOrderItem5"/>
+    </util:set>
+
+    <bean id="newOrderItem1" class="com.mongermethod.groovy_testng_example.order.Item">
+        <property name="sku" value="COMP-MPAD815"/>
+        <property name="purchasePrice" value="9.95"/>
+        <property name="quantity" value="3"/>
+    </bean>
+    <bean id="newOrderItem2" class="com.mongermethod.groovy_testng_example.order.Item">
+        <property name="sku" value="COMP-USBM75"/>
+        <property name="purchasePrice" value="19.95"/>
+        <property name="quantity" value="3"/>
+    </bean>
+    <bean id="newOrderItem3" class="com.mongermethod.groovy_testng_example.order.Item">
+        <property name="sku" value="APPR-JAVAT99"/>
+        <property name="purchasePrice" value="29.99"/>
+        <property name="quantity" value="1"/>
+    </bean>
+    <bean id="newOrderItem4" class="com.mongermethod.groovy_testng_example.order.Item">
+        <property name="sku" value="INDS-PLUT94"/>
+        <property name="purchasePrice" value="2500000.95"/>
+        <property name="quantity" value="1"/>
+    </bean>
+    <bean id="newOrderItem5" class="com.mongermethod.groovy_testng_example.order.Item">
+        <property name="sku" value="COMP-USBM75"/>
+        <property name="purchasePrice" value="15.00"/>
+        <property name="quantity" value="3"/>
+    </bean>
 
 </beans>
