@@ -4,14 +4,14 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.math.BigInteger;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "monger_product")
 public class Product implements Serializable {
     @Id
     private String sku;
-    private BigInteger price;
+    private BigDecimal price;
     private String name;
     private String description;
 
@@ -23,11 +23,11 @@ public class Product implements Serializable {
         this.sku = sku;
     }
 
-    public BigInteger getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(BigInteger price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
