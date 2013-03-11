@@ -13,7 +13,6 @@ import java.sql.SQLException;
 
 public class HsqlDatabase {
     private static final String CHANGE_LOG = "src/main/resources/liquibase/master.xml";
-    private static final String SHUTDOWN_STOPPER = ";shutdown=false";
 
     @Value("${url}")
     private String url;
@@ -41,7 +40,7 @@ public class HsqlDatabase {
     }
 
     private Connection getConnectionImpl() throws SQLException {
-        return DriverManager.getConnection(url + SHUTDOWN_STOPPER, username, null);
+        return DriverManager.getConnection(url, username, null);
     }
 
 }
