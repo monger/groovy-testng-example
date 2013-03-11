@@ -11,9 +11,12 @@ public class Item implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "itemSequence")
     private long id;
-    @Column(name = "order_id")
+
+    @Column(name = "order_id", nullable = false)
     private long orderId;
+
     private String sku;
+
     @Column(name = "purchase_price")
     private BigDecimal purchasePrice;
     private int quantity;
@@ -56,5 +59,31 @@ public class Item implements Serializable {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Item item = (Item) o;
+
+        if (id != item.id) return false;
+        if (orderId != item.orderId) return false;
+        if (quantity != item.quantity) return false;
+        if (!purchasePrice.equals(item.purchasePrice)) return false;
+        if (!sku.equals(item.sku)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (int) (orderId ^ (orderId >>> 32));
+        result = 31 * result + sku.hashCode();
+        result = 31 * result + purchasePrice.hashCode();
+        result = 31 * result + quantity;
+        return result;
     }
 }
