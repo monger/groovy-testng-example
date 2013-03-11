@@ -46,7 +46,7 @@
             <column name="username" type="VARCHAR(128)">
                 <constraints foreignKeyName="fk_customer_order" references="monger_customer(username)" nullable="false"/>
             </column>
-            <column name="date" type="TIMESTAMP">
+            <column name="order_date" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -57,7 +57,7 @@
                 <constraints primaryKey="true" nullable="false" primaryKeyName="ok_item"/>
             </column>
             <column name="order_id" type="BIGINT">
-                <constraints nullable="false" foreignKeyName="fk_order_item" references="monger_order(id)"/>
+                <constraints nullable="false" foreignKeyName="fk_order_item" references="monger_order(id)" deleteCascade="true"/>
             </column>
             <column name="sku" type="VARCHAR(12)">
                 <constraints nullable="false" foreignKeyName="fk_product_item" references="monger_product(sku)"/>
@@ -69,6 +69,7 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+
     </changeSet>
 
     <!-- ─( ADD SOME DATA )─────────────────────── -->
