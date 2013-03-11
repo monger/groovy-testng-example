@@ -33,6 +33,11 @@ public class HibernateOrderDao implements OrderDao {
     }
 
     @Override
+    public void saveItem(Item orderItem) {
+        sessionFactory.getCurrentSession().saveOrUpdate(orderItem);
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     public List<Item> getOrderItemsForOrder(long orderId) {
         return (List<Item>) sessionFactory.getCurrentSession()
@@ -42,7 +47,7 @@ public class HibernateOrderDao implements OrderDao {
     }
 
     @Override
-    public Item getOrderItem(long orderItemId) {
+    public Item loadOrderItem(long orderItemId) {
         return (Item) sessionFactory.getCurrentSession()
                 .createCriteria(Item.class)
                 .add(Restrictions.eq("id", orderItemId))
