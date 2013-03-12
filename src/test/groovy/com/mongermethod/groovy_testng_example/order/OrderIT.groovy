@@ -69,6 +69,21 @@ class OrderIT extends IntegrationBootstrap {
     }
 
     @Test(groups = ["long-integration"])
+    void "test retrieving all items in an order"() {
+        def loadedOrder = orderDao.loadOrder(newOrderList[0].id)
+        List<Item> loadedOrderItems = orderDao.getOrderItemsForOrder(loadedOrder.id)
+        loadedOrder.orderItems.collect { actualItem ->
+            def match = false
+            loadedOrderItems.collect { testItem ->
+                if (testItem == actualItem) {
+                    match = true
+                }
+            }
+            assert match
+        }
+    }
+
+    @Test(groups = ["long-integration"])
     void "test deletion of an order item"() {
         def orderItemId = ((Item) newOrderList[1].orderItems.toArray()[0]).id
         def deletableOrderItem = orderDao.loadOrderItem(orderItemId)

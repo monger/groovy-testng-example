@@ -21,7 +21,6 @@ public class Order implements Serializable {
     private Date date;
 
     @OneToMany(mappedBy = "orderId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-
     private Set<Item> orderItems;
 
     public long getId() {
