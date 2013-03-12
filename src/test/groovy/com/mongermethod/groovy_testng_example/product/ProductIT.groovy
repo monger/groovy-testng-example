@@ -36,7 +36,7 @@ class ProductIT extends IntegrationBootstrap {
         assert savedProduct == newProduct1
     }
 
-    @Test(groups = ["integration"], dependsOnMethods = ["ensure there are products already in the table", "test whether a new product gets persisted"])
+    @Test(groups = ["integration"])
     void "test whether a product actually gets deleted"() {
         productDao.saveProduct(newProduct2)
         def savedProduct = productDao.loadProduct(newProduct2.sku)
@@ -47,7 +47,7 @@ class ProductIT extends IntegrationBootstrap {
         assert deletedProduct == null
     }
 
-    @Test(groups = ["integration"], dependsOnMethods = ["ensure there are products already in the table", "test whether a new product gets persisted"])
+    @Test(groups = ["integration"])
     void "ensure that product subsets are loading properly"() {
         def productSubset = productDao.allProducts[1..2]
         String[] skus = productSubset.collect{ it.sku }

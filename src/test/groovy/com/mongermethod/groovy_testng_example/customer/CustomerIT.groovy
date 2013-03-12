@@ -41,7 +41,7 @@ class CustomerIT extends IntegrationBootstrap {
         assert savedCustomer.firstName == newCustomer1.firstName
     }
 
-    @Test(groups = ["integration"], dependsOnMethods = ["ensure that the customer gets saved", "ensure that there are customers already in the table"])
+    @Test(groups = ["integration"])
     void "ensure that the customer gets deleted"() {
         def customer = new Customer(
                 username: newCustomer2.username,
