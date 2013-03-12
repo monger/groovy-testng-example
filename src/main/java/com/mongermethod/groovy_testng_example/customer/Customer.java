@@ -48,4 +48,28 @@ public class Customer implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Customer customer = (Customer) o;
+
+        if (email != null ? !email.equals(customer.email) : customer.email != null) return false;
+        if (!firstName.equals(customer.firstName)) return false;
+        if (!lastName.equals(customer.lastName)) return false;
+        if (!username.equals(customer.username)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = username.hashCode();
+        result = 31 * result + firstName.hashCode();
+        result = 31 * result + lastName.hashCode();
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        return result;
+    }
 }
