@@ -1,27 +1,23 @@
 package com.mongermethod.groovy_testng_example.customer
 
+import com.mongermethod.groovy_testng_example.UnitBootstrap
 import org.testng.annotations.Test
 
-class CustomerVOTest {
+import javax.annotation.Resource
 
-    private USERNAME = "godzilla"
-    private FIRST_NAME = "Bob"
-    private LAST_NAME = "Jones"
-    private EMAIL = "bob_jones@nowhere.us.gov"
+class CustomerVOTest extends UnitBootstrap {
+    @Resource(name = "newCustomer2")
+    Customer fullCustomer
 
     @Test(groups = "unit")
     void "test the proper implementation of accessors and mutators"() {
         def customer = new Customer(
-                username: USERNAME,
-                firstName: FIRST_NAME,
-                lastName: LAST_NAME,
-                email: EMAIL
+                username: fullCustomer.username,
+                firstName: fullCustomer.firstName,
+                lastName: fullCustomer.lastName,
+                email: fullCustomer.email
         )
 
-        assert customer.username == USERNAME
-        assert customer.firstName == FIRST_NAME
-        assert customer.lastName == LAST_NAME
-        assert customer.email == EMAIL
+        assert customer == fullCustomer
     }
-
 }
