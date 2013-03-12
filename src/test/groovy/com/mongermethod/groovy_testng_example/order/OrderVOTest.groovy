@@ -13,7 +13,7 @@ class OrderVOTest extends UnitBootstrap {
     @Resource(name = "newOrderItemList2")
     List<Item> testOrderItems
 
-    @BeforeMethod
+    @BeforeMethod(groups = ["unit"])
     void setup() {
         def orderId = 25
 

@@ -9,7 +9,7 @@ class ItemVOTest extends UnitBootstrap {
     @Resource(name = "newOrderItem1")
     Item testItem
 
-    @BeforeMethod
+    @BeforeMethod(groups = ["unit"])
     void setup() {
         testItem.id = 5
         testItem.orderId = 10
